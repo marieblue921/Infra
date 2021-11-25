@@ -5,7 +5,7 @@ metadata:
   labels:
     name: flask-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: flask-app
@@ -18,7 +18,7 @@ spec:
       containers:
         - name: flask-app
           imagePullPolicy: Always
-          image: 299522382061.dkr.ecr.ap-northeast-2.amazonaws.com/gu-dev:148
+          image: 299522382061.dkr.ecr.ap-northeast-2.amazonaws.com/gu-dev:150
           ports:
             - containerPort: 5000
           resources:
@@ -26,3 +26,16 @@ spec:
               memory: 256Mi
             limits:
               memory: 512Mi
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-app
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
