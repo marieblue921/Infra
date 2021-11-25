@@ -27,7 +27,7 @@ spec:
             limits:
               memory: 512Mi
 ---
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: flask-app
@@ -37,5 +37,12 @@ spec:
     kind: Deployment
     name: flask-app
   minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 50
+        
