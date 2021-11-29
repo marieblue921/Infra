@@ -18,7 +18,7 @@ spec:
       containers:
         - name: flask-app
           imagePullPolicy: Always
-          image: 299522382061.dkr.ecr.ap-northeast-2.amazonaws.com/gu-dev:162
+          image: 299522382061.dkr.ecr.ap-northeast-2.amazonaws.com/gu-dev:164
           ports:
             - containerPort: 5000
           resources:
