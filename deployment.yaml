@@ -23,26 +23,28 @@ spec:
             - containerPort: 5000
           resources:
             requests:
+              cpu: "125m"
               memory: 256Mi
             limits:
+              cpu: "250m"
               memory: 512Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: flask-app
-  labels:
-        name: flask-app
 spec:
-  minReplicas: 1
-  maxReplicas: 5
-  metrics:
-  - resource:
-      name: cpu
-      targetaverageUtilization: 5
-    type: Resource
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: flask-app
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
         
